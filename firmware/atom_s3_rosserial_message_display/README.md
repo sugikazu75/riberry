@@ -32,6 +32,7 @@ rosrun rosserial_arduino make_libraries.py .
 ### Compile and write firmware to atom s3
 **When writing to atoms3, push reset button on atoms3 for 2s to make atoms3 write mode.**
 ```
+cd firmware/atom_s3_rosserial_message_display
 pio run -t upload
 ```
 

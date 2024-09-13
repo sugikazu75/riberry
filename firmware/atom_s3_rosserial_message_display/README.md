@@ -25,7 +25,7 @@ pip3 install platformio -U
 
 ### Generate rosserial library
 ```
-cd firmware
+cd firmware/lib
 rosrun rosserial_arduino make_libraries.py
 ```
 

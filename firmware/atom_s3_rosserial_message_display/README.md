@@ -26,7 +26,7 @@ pip3 install platformio -U
 ### Generate rosserial library
 ```
 cd firmware/lib
-rosrun rosserial_arduino make_libraries.py
+rosrun rosserial_arduino make_libraries.py .
 ```
 
 ### Compile and write firmware to atom s3

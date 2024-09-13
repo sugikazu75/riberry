@@ -38,5 +38,5 @@ pio run -t upload
 
 ### Connect by rosserial
 ```
-rosrun rosserial_python _port:=/dev/tty**** __ns:=robot_ns
+rosrun rosserial_python serial_node.py _port:=/dev/tty**** __ns:=robot_ns
 ```

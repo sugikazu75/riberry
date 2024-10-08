@@ -11,6 +11,30 @@
 #include "config.h"
 #include "common.h"
 
+#ifndef BatteryDisplay_h
+#define BatteryDisplay_h
+
+// voltage unit: V
+class BatteryDisplay
+{
+public:
+  BatteryDisplay(float maxVoltage, float minVoltage);
+
+public:
+  void setVoltageRange(float newMaxVoltage, float newMinVoltage);
+  void displayFrame();
+  void updateVoltage(float voltage);
+  void VoltageSub(const std_msgs::Float32& voltage_msg);
+
+private:
+  float maxVoltage_;
+  float minVoltage_;
+  float Voltage_;
+  ros::Subscriber<std_msgs::Float32> voltage_sub_;
+};
+
+#endif
+
 
 ros::NodeHandle_<ArduinoHardware> nh;
 

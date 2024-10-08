@@ -40,5 +40,5 @@ pio run -t upload
 ```
 roscore
 rosrun rosserial_python serial_node.py _port:=/dev/tty**** __ns:=robot_ns
-rostopic pub /multirotor/battery_voltage_status std_msgs/Float32 "data: 1.0"
+rostopic pub robot_ns/battery_voltage_status std_msgs/Float32 "data: 1.0"
 ```

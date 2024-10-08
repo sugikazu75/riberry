@@ -38,5 +38,7 @@ pio run -t upload
 
 ### Connect by rosserial
 ```
+roscore
 rosrun rosserial_python serial_node.py _port:=/dev/tty**** __ns:=robot_ns
+rostopic pub /multirotor/battery_voltage_status std_msgs/Float32 "data: 1.0"
 ```

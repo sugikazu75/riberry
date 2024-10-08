@@ -1,4 +1,4 @@
-static LGFX lcd;
+static M5GFX lcd;
 LGFX_Sprite sprite;
 #define TFT_BL 10
 

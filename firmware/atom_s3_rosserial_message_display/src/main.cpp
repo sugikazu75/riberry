@@ -1,11 +1,12 @@
+#include "M5AtomS3.h"
 #include "ArduinoHWCDCHardware.h"
 #include "ros/node_handle.h"
 
 #include <std_msgs/Float32.h>
 
-#define LGFX_M5ATOMS3
-#include <LovyanGFX.hpp>
-#include <LGFX_AUTODETECT.hpp>
+// #define LGFX_M5ATOMS3
+// #include <LovyanGFX.hpp>
+// #include <LGFX_AUTODETECT.hpp>
 
 #include "config.h"
 #include "common.h"

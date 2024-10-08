@@ -24,16 +24,82 @@ public:
   void setVoltageRange(float newMaxVoltage, float newMinVoltage);
   void displayFrame();
   void updateVoltage(float voltage);
-  void VoltageSub(const std_msgs::Float32& voltage_msg);
 
 private:
   float maxVoltage_;
   float minVoltage_;
   float Voltage_;
-  ros::Subscriber<std_msgs::Float32> voltage_sub_;
 };
 
 #endif
+
+#define LCD_H M5.Lcd.height()
+#define LCD_W M5.Lcd.width()
+
+
+BatteryDisplay::BatteryDisplay(float maxVoltage, float minVoltage)
+  :maxVoltage_(maxVoltage), minVoltage_(minVoltage) {}
+
+void BatteryDisplay::setVoltageRange(float newMaxVoltage, float newMinVoltage)
+{
+  maxVoltage_ = newMaxVoltage;
+  minVoltage_ = newMinVoltage;
+}
+
+void BatteryDisplay::displayFrame()
+{
+  // Show title.
+  M5.Lcd.fillRect(0, 0, LCD_W, 16, MAROON);
+  M5.Lcd.setTextSize(2);
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.drawString("Voltage", 0, 0, 1);
+
+  // Show units.
+  M5.Lcd.drawRect(0, 19, LCD_W, 19, YELLOW);
+  M5.Lcd.drawLine(LCD_W/2+12, 19, LCD_W/2+12, 37, YELLOW);
+  M5.Lcd.drawString("V", LCD_W/2-1, 22, 1);
+  M5.Lcd.drawString("%", LCD_W-12, 22, 1);
+}
+
+void BatteryDisplay::updateVoltage(float voltage)
+{
+  float voltageRatio = (voltage - minVoltage_) / (maxVoltage_ - minVoltage_);
+  voltageRatio = constrain(voltageRatio, 0.0f, 1.0f);
+
+  // Erase screen.
+  M5.Lcd.fillRect(1, 20, 60, 16, BLACK);
+  M5.Lcd.fillRect(LCD_W/2+17, 20, 32, 16, BLACK);
+
+  // Show voltage.
+  M5.Lcd.setTextColor(WHITE);
+  M5.Lcd.setCursor(2, 21);
+  M5.Lcd.printf("%0.2f", voltage);
+  M5.Lcd.setCursor(LCD_W/2+15, 21);
+  M5.Lcd.print((uint8_t)(voltageRatio*100));
+
+  // Show Meter
+  int32_t rect_x = 0;
+  int32_t rect_h = 7;
+  int32_t rect_w = LCD_W;
+  int32_t radius = 3;
+  uint8_t barNum = 10;
+  for(byte k = 0; k < barNum; k++)
+  {
+    int32_t rect_y = LCD_H - rect_h - (rect_h + 2) * k;
+    uint16_t color = M5.Lcd.color565(16,16,16);
+    if(voltageRatio > float(k+1) / barNum)
+    {
+      color = M5.Lcd.color565(
+        (uint8_t)(255 - 255 * (k / float(barNum-1))),
+        (uint8_t)(255 * (k / float(barNum-1))), 0);
+    }
+    M5.Lcd.fillRoundRect(rect_x, rect_y, rect_w, rect_h, radius, color);
+  }
+}
+// void BatteryDisplay::VoltageSub(const std_msgs::Float32& voltage_msg){
+//     Voltage_ = voltage_msg.data;
+//     updateVoltage(Voltage_);
+// }
 
 
 ros::NodeHandle_<ArduinoHardware> nh;

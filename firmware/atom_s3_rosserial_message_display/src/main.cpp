@@ -96,10 +96,6 @@ void BatteryDisplay::updateVoltage(float voltage)
     M5.Lcd.fillRoundRect(rect_x, rect_y, rect_w, rect_h, radius, color);
   }
 }
-// void BatteryDisplay::VoltageSub(const std_msgs::Float32& voltage_msg){
-//     Voltage_ = voltage_msg.data;
-//     updateVoltage(Voltage_);
-// }
 
 
 ros::NodeHandle_<ArduinoHardware> nh;

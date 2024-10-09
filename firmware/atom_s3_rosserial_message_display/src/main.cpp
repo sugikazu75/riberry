@@ -2,6 +2,10 @@
 #include "ArduinoHWCDCHardware.h"
 #include "ros/node_handle.h"
 
+namespace ros{
+  typedef NodeHandle_<ArduinoHardware> NodeHandle;
+}
+
 #include <std_msgs/Float32.h>
 
 // #define LGFX_M5ATOMS3
@@ -130,7 +134,7 @@ void BatteryDisplay::updateVoltage(float voltage)
 }
 
 
-ros::NodeHandle_<ArduinoHardware> nh;
+ros::NodeHandle nh;
 
 float battery_voltage_;
 void batteryVoltageCallback(const std_msgs::Float32& msg){

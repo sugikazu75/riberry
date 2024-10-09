@@ -93,7 +93,7 @@ float BatteryDisplay::calcPercentage(float voltage){
 
 void BatteryDisplay::updateVoltage(float voltage)
 {
-  float voltageRatio = calcPercentage(voltage);
+  float voltageRatio = calcPercentage(voltage)/100;
   voltageRatio = constrain(voltageRatio, 0.0f, 1.0f);
 
   // Erase screen.

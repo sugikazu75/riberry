@@ -120,17 +120,17 @@ void BatteryDisplay::updateVoltage(float voltage)
   int32_t radius = 3;
   uint8_t barNum = 10;
   for(byte k = 0; k < barNum; k++)
-  {
-    int32_t rect_y = LCD_H - rect_h - (rect_h + 2) * k;
-    uint16_t color = M5.Lcd.color565(16,16,16);
-    if(voltageRatio > float(k+1) / barNum)
     {
-      color = M5.Lcd.color565(
-        (uint8_t)(255 - 255 * (k / float(barNum-1))),
-        (uint8_t)(255 * (k / float(barNum-1))), 0);
+      int32_t rect_y = LCD_H - rect_h - (rect_h + 2) * k;
+      uint16_t color = M5.Lcd.color565(16,16,16);
+      if(voltageRatio > float(k+1) / barNum)
+        {
+          color = M5.Lcd.color565(
+                                  (uint8_t)(255 - 255 * (k / float(barNum-1))),
+                                  (uint8_t)(255 * (k / float(barNum-1))), 0);
+        }
+      M5.Lcd.fillRoundRect(rect_x, rect_y, rect_w, rect_h, radius, color);
     }
-    M5.Lcd.fillRoundRect(rect_x, rect_y, rect_w, rect_h, radius, color);
-  }
 }
 
 
@@ -182,11 +182,11 @@ void loop()
   M5.Lcd.setCursor(0, 0);
   if(!nh.connected())
     {
-    M5.Lcd.fillScreen(M5.Lcd.color565(255, 0, 0));
+      M5.Lcd.fillScreen(M5.Lcd.color565(255, 0, 0));
     }
   else
     {
-    batDisp.updateVoltage(battery_voltage_);
+      batDisp.updateVoltage(battery_voltage_);
     }
   delay(500);
 }

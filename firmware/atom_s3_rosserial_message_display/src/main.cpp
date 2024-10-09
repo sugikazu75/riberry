@@ -104,8 +104,10 @@ void BatteryDisplay::updateVoltage(float voltage)
   M5.Lcd.setTextColor(WHITE);
   M5.Lcd.setCursor(2, 21);
   M5.Lcd.printf("%0.2f", voltage);
-  M5.Lcd.setCursor(LCD_W/2+15, 21);
+  M5.Lcd.drawString("V", LCD_W/2, 22, 1);
+  M5.Lcd.setCursor(LCD_W/2+25, 21);
   M5.Lcd.print((uint8_t)(voltageRatio*100));
+  M5.Lcd.drawString("%", LCD_W-12, 22, 1);
 
   // Show Meter
   int32_t rect_x = 0;

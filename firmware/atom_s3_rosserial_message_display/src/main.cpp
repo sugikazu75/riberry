@@ -22,9 +22,10 @@ namespace ros{
 class BatteryDisplay
 {
 public:
-  BatteryDisplay(int bat_cell);
+  BatteryDisplay();
 
 public:
+  void SetBatcell(int bat_cell);
   void displayFrame();
   void updateVoltage(float voltage);
   float calcPercentage(float voltage);
@@ -51,10 +52,13 @@ private:
 #define LCD_W M5.Lcd.width()
 
 
-BatteryDisplay::BatteryDisplay(int bat_cell)
-  :bat_cell_(bat_cell) {}
-
-
+BatteryDisplay::BatteryDisplay()
+{
+}
+void BatteryDisplay::SetBatcell(int bat_cell)
+{
+  bat_cell_ = bat_cell;
+}
 void BatteryDisplay::displayFrame()
 {
   // Show title.
@@ -128,6 +132,7 @@ void BatteryDisplay::updateVoltage(float voltage)
 
 ros::NodeHandle nh;
 
+int bat_cell;
 float battery_voltage_;
 void batteryVoltageCallback(const std_msgs::Float32& msg){
   battery_voltage_ = msg.data;
@@ -135,8 +140,7 @@ void batteryVoltageCallback(const std_msgs::Float32& msg){
 
 ros::Subscriber<std_msgs::Float32> battery_voltage_sub_("battery_voltage_status", &batteryVoltageCallback);
 
-int batcell = 4;
-BatteryDisplay batDisp(batcell);
+BatteryDisplay batDisp;
 
 void setup()
 {
@@ -159,6 +163,10 @@ void setup()
     nh.spinOnce();
     delay(100);
   }
+  nh.getParam("~bat_cell", &bat_cell);
+  batDisp.SetBatcell(bat_cell);
+  M5.Lcd.printf("bat_cell is %d", bat_cell);
+  M5.Lcd.println();
   M5.Lcd.println("rosserial init done!");
 
   delay(1000);

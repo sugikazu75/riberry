@@ -22,10 +22,9 @@ namespace ros{
 class BatteryDisplay
 {
 public:
-  BatteryDisplay(float maxVoltage, float minVoltage, int bat_cell);
+  BatteryDisplay(int bat_cell);
 
 public:
-  void setVoltageRange(float newMaxVoltage, float newMinVoltage);
   void displayFrame();
   void updateVoltage(float voltage);
   float calcPercentage(float voltage);
@@ -42,8 +41,6 @@ public:
   static constexpr float VOLTAGE_0P =  3.0;
 
 private:
-  float maxVoltage_;
-  float minVoltage_;
   float Voltage_;
   int bat_cell_;
 };
@@ -54,14 +51,9 @@ private:
 #define LCD_W M5.Lcd.width()
 
 
-BatteryDisplay::BatteryDisplay(float maxVoltage, float minVoltage, int bat_cell)
-  :maxVoltage_(maxVoltage), minVoltage_(minVoltage), bat_cell_(bat_cell) {}
+BatteryDisplay::BatteryDisplay(int bat_cell)
+  :bat_cell_(bat_cell) {}
 
-void BatteryDisplay::setVoltageRange(float newMaxVoltage, float newMinVoltage)
-{
-  maxVoltage_ = newMaxVoltage;
-  minVoltage_ = newMinVoltage;
-}
 
 void BatteryDisplay::displayFrame()
 {
@@ -143,10 +135,8 @@ void batteryVoltageCallback(const std_msgs::Float32& msg){
 
 ros::Subscriber<std_msgs::Float32> battery_voltage_sub_("battery_voltage_status", &batteryVoltageCallback);
 
-float maxVoltage = 16.8f; // 100% voltage
-float minVoltage = 14.8f; // 0%   voltage
 int batcell = 4;
-BatteryDisplay batDisp(maxVoltage, minVoltage, batcell);
+BatteryDisplay batDisp(batcell);
 
 void setup()
 {
